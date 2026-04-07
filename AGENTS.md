@@ -174,3 +174,8 @@ Every addition should be evaluated by these questions:
 - readable
 - realistic
 - trainer-friendly
+
+## Decision Rule
+
+When choosing between abstraction and explainability, prefer explainability.
+Clarity is more important than enterprise-level sophistication.
