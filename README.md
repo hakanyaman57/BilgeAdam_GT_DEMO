@@ -1,62 +1,53 @@
 # GT Demo Project
 
-This repository is a training-oriented demo automation project prepared for a 3-day internal training.
+Mini corporate-style automation framework for a 3-day BA/TA training.
 
-## Purpose
+## Stack
+- Java 21, Maven
+- Web/Mobile: Cucumber + TestNG + Selenium/Appium
+- API: Karate + JUnit 5
+- Reports: Cucumber HTML/JSON + TestNG default reports
 
-The goal of this repository is to provide a small but realistic, corporate-style demo framework that can be used to explain and practice:
+## Locked Demo Targets
+- Web business: ParaBank
+- Web technical lab: The Internet
+- Advanced DOM lab: SelectorsHub
+- Mobile native: TheApp (Android + iOS structure)
+- Mobile hybrid: Android ApiDemos (context switch teaching only)
+- API: Restful-Booker
 
-- web test automation with Selenium
-- mobile test automation with Appium
-- API test automation with Karate
-- BDD structure with Cucumber
-- TestNG-based execution
-- framework layers such as Pages, Screens, Steps, Hooks, Utils, Config, Test Data
-- CI/CD awareness with Jenkins
-- reporting and basic failure analysis
+## Runnable Scope
+- Web: login, form fill, dropdown, iframe, explicit wait, shadow DOM, nested shadow DOM
+- API: ping, POST booking, GET booking, reusable auth-token flow (callable Karate feature)
+- Mobile: Android native + Android hybrid flows implemented with step definitions and screen objects
 
-This project is not intended to be a large production framework.  
-It should remain small, understandable, runnable, and suitable for training.
+## Run Commands
+- Web + API default: `mvn test`
+- Web only: `mvn surefire:test@web-tests`
+- API only: `mvn failsafe:integration-test@api-tests failsafe:verify@api-tests`
+- Mobile profile: `mvn -Pmobile surefire:test@mobile-tests`
 
-## Target Audience
+## Mobile Setup Notes
+- Start Appium server and emulator/simulator first.
+- Configure app binaries in `src/test/resources/config/framework.properties`.
+- Default mobile profile is `theapp`; `@apidemos` scenarios auto-switch to ApiDemos profile in hooks.
 
-- Business Analysts
-- Test Analysts
-- Junior QA / automation learners
+## Training Assets
+- Core executable features:
+  - `src/test/resources/features/web`
+  - `src/test/resources/features/mobile`
+  - `src/test/resources/features/api`
+- BDD classroom examples:
+  - `src/test/resources/features/training/bdd`
+- Anti-pattern examples (DO NOT USE):
+  - `src/test/resources/features/training/anti-patterns`
 
-## Expected Characteristics
-
-- Java 21
-- Maven
-- TestNG
-- Cucumber
-- Selenium
-- Appium
-- Karate
-- Cucumber reports
-- TestNG default reports
-
-## Scope
-
-The repository should include:
-
-- a web automation section
-- a mobile automation section
-- an API automation section
-- good and bad BDD examples
-- intentionally problematic test examples for training/debug purposes
-- trainer-friendly documentation
-- Jenkinsfile
-- Git/Bitbucket workflow guide
-
-## Design Philosophy
-
-- keep the project small and understandable
-- keep the structure realistic and professional
-- prefer clarity over abstraction
-- include enough variety for training
-- avoid unnecessary framework complexity
-
-## Notes
-
-This repository is being generated and refined specifically for training preparation.
+## Documentation
+- Architecture: `docs/architecture-overview.md`
+- Class map: `docs/class-purpose-guide.md`
+- Scenario catalog: `docs/training-scenarios-list.md`
+- BDD guidance: `docs/bdd-examples.md`
+- Anti-pattern guide: `docs/bad-examples-guide.md`
+- Demo flow: `docs/trainer-demo-order.md`
+- Limitations: `docs/known-limitations.md`
+- Target rationale: `docs/target-selection-summary.md`

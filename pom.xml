@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.gt.demo</groupId>
+  <artifactId>gt-demo-project</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <name>GT Demo Project</name>
+
+  <properties>
+    <maven.compiler.release>21</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <selenium.version>4.21.0</selenium.version>
+    <testng.version>7.10.2</testng.version>
+    <cucumber.version>7.18.1</cucumber.version>
+    <appium.version>9.2.2</appium.version>
+    <karate.version>1.5.0</karate.version>
+    <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
+  </properties>
+
+  <dependencies>
+    <!-- Web -->
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>${selenium.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Mobile -->
+    <dependency>
+      <groupId>io.appium</groupId>
+      <artifactId>java-client</artifactId>
+      <version>${appium.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- BDD + Execution -->
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-testng</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>${testng.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- API -->
+    
+    <dependency>
+      <groupId>io.karatelabs</groupId>
+      <artifactId>karate-junit5</artifactId>
+      <version>${karate.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Logging: Karate already brings a SLF4J implementation (Logback). Keep only one binding. -->
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- maven-enforcer-plugin:
+           Build'in Java 21 ile çalışmasını zorunlu kılar.
+           Böylece farklı JDK ile çalıştırıldığında erken ve anlaşılır hata verir. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.5.0</version>
+        <executions>
+          <execution>
+            <id>enforce-java</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireJavaVersion>
+                  <version>[21,22)</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- maven-compiler-plugin:
+           Test ve kaynak kodlarını Java 21 hedefiyle derler. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.12.1</version>
+        <configuration>
+          <release>${maven.compiler.release}</release>
+        </configuration>
+      </plugin>
+
+      <!-- maven-surefire-plugin:
+           Unit / test fazındaki testleri çalıştırır.
+           Bu projede özellikle Web (Cucumber + TestNG) koşusu için kullanılıyor. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven.surefire.plugin.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-testng</artifactId>
+            <version>${maven.surefire.plugin.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <useSystemClassLoader>true</useSystemClassLoader>
+          <!-- Varsayılan "test" davranışını kapatıyoruz; hangi testin ne zaman koşacağını
+               aşağıdaki execution bloklarında açıkça yönetiyoruz. -->
+          <skipTests>true</skipTests>
+          <systemPropertyVariables>
+            <!-- Eğitim çıktısını sade tutmak için Cucumber publish banner'ını kapatır. -->
+            <cucumber.publish.quiet>true</cucumber.publish.quiet>
+          </systemPropertyVariables>
+        </configuration>
+        <executions>
+          <execution>
+            <id>web-tests</id>
+            <phase>test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <skipTests>false</skipTests>
+              <includes>
+                <include>**/web/runners/**/*Test.java</include>
+              </includes>
+              <!-- Neden exclude var?
+                   Web koşusu TestNG/Surefire ile çalışır; Karate ise JUnit5 engine kullanır.
+                   Karate bağımlılığı classpath'te kalırsa Surefire gereksiz JUnit/Karate
+                   keşfi yapabilir ve web koşusunu kirletebilir.
+                   Bu yüzden web koşusunda Karate bağımlılığını hariç tutuyoruz. -->
+              <classpathDependencyExcludes>
+                <classpathDependencyExclude>io.karatelabs:karate-junit5</classpathDependencyExclude>
+              </classpathDependencyExcludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- maven-failsafe-plugin:
+           Integration-test fazı için kullanılır.
+           Bu projede API/Karate testlerini ayrı bir yaşam döngüsünde (integration-test + verify)
+           çalıştırmak için seçildi. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${maven.surefire.plugin.version}</version>
+        <executions>
+          <execution>
+            <id>api-tests</id>
+            <phase>test</phase>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+            <configuration>
+              <includes>
+                <include>**/api/karate/runners/**/*Test.java</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <!-- Neden profile kullandık?
+         Mobil testleri her "mvn test" çalıştırmasında tetiklememek için.
+         Appium/cihaz/emülatör gereksinimi olduğundan mobil koşu isteğe bağlı tutuldu.
+         Çalıştırma örneği: mvn test -Pmobile -->
+    <profile>
+      <id>mobile</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>${maven.surefire.plugin.version}</version>
+            <executions>
+              <execution>
+                <id>mobile-tests</id>
+                <phase>test</phase>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <configuration>
+                  <skipTests>false</skipTests>
+                  <includes>
+                    <include>**/mobile/runners/**/*Test.java</include>
+                  </includes>
+                  <!-- Mobil koşu da TestNG/Surefire hattında; aynı nedenle Karate bağımlılığı
+                       bu koşudan hariç tutulur. -->
+                  <classpathDependencyExcludes>
+                    <classpathDependencyExclude>io.karatelabs:karate-junit5</classpathDependencyExclude>
+                  </classpathDependencyExcludes>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
