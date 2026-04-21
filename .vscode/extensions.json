@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "vscjava.vscode-java-pack",
+    "vscjava.vscode-maven",
+    "vscjava.vscode-java-test",
+    "CucumberOpen.cucumber-official",
+    "karatelabs.karate"
+  ],
+  "unwantedRecommendations": [
+    "kirkslota.karate-runner"
+  ]
+}

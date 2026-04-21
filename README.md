@@ -48,6 +48,7 @@ Mini corporate-style automation framework for a 3-day BA/TA training.
 - Scenario catalog: `docs/training-scenarios-list.md`
 - BDD guidance: `docs/bdd-examples.md`
 - Anti-pattern guide: `docs/bad-examples-guide.md`
+- VS Code/Codespaces setup: `docs/vscode-karate-cucumber-setup.md`
 - Demo flow: `docs/trainer-demo-order.md`
 - Limitations: `docs/known-limitations.md`
 - Target rationale: `docs/target-selection-summary.md`
