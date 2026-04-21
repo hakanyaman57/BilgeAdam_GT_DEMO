@@ -15,7 +15,8 @@ import org.testng.annotations.Test;
       "html:target/cucumber/web/cucumber-report.html",
       "json:target/cucumber/web/cucumber.json"
     },
-    tags = "@Egitim and @smoke and @web and not @wip")
+    // Targets versioned smoke web scenarios by default; training-specific tags are optional.
+    tags = "@web and @smoke and not @wip")
 public class WebCucumberTest extends AbstractTestNGCucumberTests {
 
   @Override

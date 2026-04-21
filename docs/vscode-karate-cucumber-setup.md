@@ -43,7 +43,7 @@ Only workspace-level mapping should remain active.
 
 ## How to Run
 
-- Web: run from `WebCucumberTest.java` using Java Test Runner
+- Web: prefer class-level run from `WebCucumberTest.java` using Java Test Runner; verify output includes `com.gt.demo.web.runners.WebCucumberTest`
 - API: run from `ApiKarateTest.java` using Java Test Runner (or Karate run action)
 
 `Problems` warnings tagged as `cucumber.undefined-step` in API feature files are lint diagnostics. They are not proof that API tests were executed by Cucumber.
