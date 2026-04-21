@@ -1,18 +1,18 @@
 {
   "java.configuration.updateBuildConfiguration": "automatic",
   "files.associations": {
-    "src/test/resources/features/api/**/*.feature": "karate",
-    "src/test/resources/features/web/**/*.feature": "cucumber",
-    "src/test/resources/features/mobile/**/*.feature": "cucumber",
-    "src/test/resources/features/training/**/*.feature": "cucumber"
+    "**/features/api/**/*.feature": "karate",
+    "**/features/web/**/*.feature": "cucumber",
+    "**/features/mobile/**/*.feature": "cucumber",
+    "**/features/training/**/*.feature": "cucumber"
   },
   "cucumber.features": [
-    "src/test/resources/features/web/**/*.feature",
-    "src/test/resources/features/mobile/**/*.feature",
-    "src/test/resources/features/training/**/*.feature"
+    "**/features/web/**/*.feature",
+    "**/features/mobile/**/*.feature",
+    "**/features/training/**/*.feature"
   ],
   "cucumber.glue": [
-    "src/test/java/com/gt/demo/web/**/*.java",
-    "src/test/java/com/gt/demo/mobile/**/*.java"
+    "**/src/test/java/com/gt/demo/web/**/*.java",
+    "**/src/test/java/com/gt/demo/mobile/**/*.java"
   ]
 }
