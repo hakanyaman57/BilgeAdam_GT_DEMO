@@ -23,7 +23,7 @@ Mini corporate-style automation framework for a 3-day BA/TA training.
 
 ## Run Commands
 - Web + API default: `mvn test`
-- Web only: `mvn surefire:test@web-tests`
+- Web only (terminal or VS Code Maven test action): `mvn surefire:test`
 - API only: `mvn failsafe:integration-test@api-tests failsafe:verify@api-tests`
 - Mobile profile: `mvn -Pmobile surefire:test@mobile-tests`
 
