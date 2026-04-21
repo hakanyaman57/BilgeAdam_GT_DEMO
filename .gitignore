@@ -1,6 +1,8 @@
 .DS_Store
 .idea/
-.vscode/
+.vscode/*
+!.vscode/
+!.vscode/settings.json
 *.iml
 
 target/
@@ -15,4 +17,3 @@ apps/
 *.ipa
 *.app
 *.app.zip
-
