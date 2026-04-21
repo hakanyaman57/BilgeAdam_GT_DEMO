@@ -14,5 +14,18 @@
   "cucumber.glue": [
     "**/src/test/java/com/gt/demo/web/**/*.java",
     "**/src/test/java/com/gt/demo/mobile/**/*.java"
-  ]
+  ],
+  "java.test.config": [
+    {
+      "name": "web-novnc",
+      "testKind": "testng",
+      "env": {
+        "DISPLAY": ":99"
+      },
+      "vmArgs": [
+        "-Dwebdriver.headless=false"
+      ]
+    }
+  ],
+  "java.test.defaultConfig": "web-novnc"
 }
