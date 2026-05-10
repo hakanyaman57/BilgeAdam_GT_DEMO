@@ -51,7 +51,7 @@ Scenario: Login
 
 
 # Aşağıdaki 2 senaryo yerine Scenario Outline kullanılacak
-Scenario: invalid user 1
+Scenario: invalid user 12
   Given I am on ParaBank login page
   When I login with username "user1" and password "pass1"
   Then I should see an authentication error message
