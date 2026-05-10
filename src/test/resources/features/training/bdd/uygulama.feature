@@ -5,8 +5,8 @@ Scenario: Successfully login 2
     Given : I am on ParaBank login page
     When : I login with username "valid-user" and password "valid-pass"
     Then : home page should be displayed
-    @debug @happy
-    
+    @debug @happy @tag1
+
 Scenario Outline: Invalid login
     Given I am on ParaBank login page
     When I login with username "<username>" and password "<password>"
