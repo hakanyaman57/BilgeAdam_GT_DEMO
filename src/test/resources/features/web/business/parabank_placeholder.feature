@@ -2,7 +2,7 @@
 Feature: ParaBank business flows
     Business-like scenarios are kept simple for training and explainability.
     @smoke @happy
-  Scenario: Invalid login should show a clear business error
+  Scenario: Invalid login   should show a clear business error
     Given I open ParaBank home page
     When I login with invalid business credentials
     Then I should see a business login error
