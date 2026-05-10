@@ -1,5 +1,5 @@
     @web 
-Feature: ParaBank business flows
+Feature: ParaBank business  flows
     Business-like scenarios are kept simple for training and explainability.
     @smoke @happy
   Scenario: Invalid login   should show a clear business error
