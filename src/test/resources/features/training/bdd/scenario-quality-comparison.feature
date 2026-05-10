@@ -6,7 +6,7 @@ Feature: Scenario quality comparison for trainers
     Given I do all setup quickly
     When I click many things and wait a bit and continue
     Then it should work somehow
-@debug @happy
+@debug @happy @smoke
   Scenario: Improved explicit scenario
     Given I am on ParaBank login page
     When I login with invalid credentials
