@@ -1,0 +1,78 @@
+{
+  "home": {
+    "username": {
+      "type": "name",
+      "value": "username"
+    },
+    "password": {
+      "type": "name",
+      "value": "password"
+    },
+    "loginButton": {
+      "type": "css",
+      "value": "input.button[value='Log In']"
+    },
+    "registerLink": {
+      "type": "linkText",
+      "value": "Register"
+    },
+    "loginError": {
+      "type": "css",
+      "value": "#rightPanel p.error"
+    },
+    "logoutLink": {
+      "type": "linkText",
+      "value": "Log Out"
+    }
+  },
+  "register": {
+    "firstName": {
+      "type": "id",
+      "value": "customer.firstName"
+    },
+    "lastName": {
+      "type": "id",
+      "value": "customer.lastName"
+    },
+    "street": {
+      "type": "id",
+      "value": "customer.address.street"
+    },
+    "city": {
+      "type": "id",
+      "value": "customer.address.city"
+    },
+    "state": {
+      "type": "id",
+      "value": "customer.address.state"
+    },
+    "zipCode": {
+      "type": "id",
+      "value": "customer.address.zipCode"
+    },
+    "phone": {
+      "type": "id",
+      "value": "customer.phoneNumber"
+    },
+    "ssn": {
+      "type": "id",
+      "value": "customer.ssn"
+    },
+    "username": {
+      "type": "id",
+      "value": "customer.username"
+    },
+    "password": {
+      "type": "id",
+      "value": "customer.password"
+    },
+    "repeatedPassword": {
+      "type": "id",
+      "value": "repeatedPassword"
+    },
+    "registerButton": {
+      "type": "css",
+      "value": "input.button[value='Register']"
+    }
+  }
+}

@@ -1,22 +1,26 @@
 package com.gt.demo.web.pages.business;
 
 import com.gt.demo.web.base.BaseWebPage;
+import com.gt.demo.web.locators.JsonLocatorRepository;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class ParaBankRegisterPage extends BaseWebPage {
-  private static final By FIRST_NAME = By.id("customer.firstName");
-  private static final By LAST_NAME = By.id("customer.lastName");
-  private static final By STREET = By.id("customer.address.street");
-  private static final By CITY = By.id("customer.address.city");
-  private static final By STATE = By.id("customer.address.state");
-  private static final By ZIP_CODE = By.id("customer.address.zipCode");
-  private static final By PHONE = By.id("customer.phoneNumber");
-  private static final By SSN = By.id("customer.ssn");
-  private static final By USERNAME = By.id("customer.username");
-  private static final By PASSWORD = By.id("customer.password");
-  private static final By REPEATED_PASSWORD = By.id("repeatedPassword");
-  private static final By REGISTER_BUTTON = By.cssSelector("input.button[value='Register']");
+  private static final JsonLocatorRepository LOCATORS =
+      JsonLocatorRepository.fromResource("locators/web/parabank-locators.json");
+
+  private static final By FIRST_NAME = LOCATORS.by("register", "firstName");
+  private static final By LAST_NAME = LOCATORS.by("register", "lastName");
+  private static final By STREET = LOCATORS.by("register", "street");
+  private static final By CITY = LOCATORS.by("register", "city");
+  private static final By STATE = LOCATORS.by("register", "state");
+  private static final By ZIP_CODE = LOCATORS.by("register", "zipCode");
+  private static final By PHONE = LOCATORS.by("register", "phone");
+  private static final By SSN = LOCATORS.by("register", "ssn");
+  private static final By USERNAME = LOCATORS.by("register", "username");
+  private static final By PASSWORD = LOCATORS.by("register", "password");
+  private static final By REPEATED_PASSWORD = LOCATORS.by("register", "repeatedPassword");
+  private static final By REGISTER_BUTTON = LOCATORS.by("register", "registerButton");
 
   public ParaBankRegisterPage(WebDriver driver) {
     super(driver);
@@ -47,5 +51,4 @@ public class ParaBankRegisterPage extends BaseWebPage {
   public String enteredUsername() {
     return visible(USERNAME).getAttribute("value");
   }
-
 }

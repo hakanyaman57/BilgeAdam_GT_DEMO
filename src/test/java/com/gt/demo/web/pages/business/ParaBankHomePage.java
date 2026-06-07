@@ -39,7 +39,7 @@ public class ParaBankHomePage extends BaseWebPage {
   }
 
   public String dashboardTitle() {
-    return driver.getTitle();
+    return driver.getTitle(); 
   }
 
   public boolean isLoggedIn() {

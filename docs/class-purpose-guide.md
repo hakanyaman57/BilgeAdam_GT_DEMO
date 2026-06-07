@@ -17,6 +17,8 @@ This file is a trainer-friendly map of the key classes and what they do.
   Starts/quits WebDriver per scenario.
 - `com.gt.demo.web.pages.*`  
   Page Objects (kept small and explicit for training).
+- `com.gt.demo.web.locators.JsonLocatorRepository`  
+  Small training example for loading Selenium locators from JSON while keeping Page Objects in control.
 - `com.gt.demo.web.steps.*`  
   Cucumber step definitions.
 - `com.gt.demo.web.runners.WebCucumberTest`  
