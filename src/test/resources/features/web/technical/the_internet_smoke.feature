@@ -5,11 +5,26 @@ Feature: The Internet technical lab
   Scenario: Technical lab home smoke
     Given I open The Internet technical lab home page
     Then I should see technical lab heading "Welcome to the-internet"
+@smoke
+  Scenario: Dropdown selection
+    Given I open The Internet dropdown page
+    When I choose dropdown option "Option 1"
+    Then I should see selected dropdown option "Option 1"
 
   Scenario: Dropdown selection
     Given I open The Internet dropdown page
     When I choose dropdown option "Option 2"
     Then I should see selected dropdown option "Option 2"
+@smoke
+  Scenario Outline: Dropdown selection with examples
+    Given I open The Internet dropdown page
+    When I choose dropdown option "<option>"
+    Then I should see selected dropdown option "<result>"
+
+    Examples:
+      | option   |result    |
+      | Option 1 | Result 1 |
+      | Option 2 | Result 2 |
 
   Scenario: iframe editor interaction
     Given I open The Internet iframe page

@@ -21,12 +21,14 @@ Feature: Restful-Booker API smoke
 
   Scenario: Health check ping
     Given path 'ping'
+    * print 'Base URL: ', apiBaseUrl 
     When method get
     Then status 201
 
   Scenario: Create booking with POST
     Given path 'booking'
     And request bookingPayload
+    * print 'Request payload for booking creation:', bookingPayload
     When method post
     Then status 200
     And match response.bookingid == '#number'
@@ -39,6 +41,7 @@ Feature: Restful-Booker API smoke
     When method post
     Then status 200
     * def createdBookingId = response.bookingid
+    * print 'Created booking ID:', createdBookingId
     Given path 'booking', createdBookingId
     When method get
     Then status 200
@@ -57,3 +60,35 @@ Feature: Restful-Booker API smoke
     And header Cookie = 'token=' + token
     When method delete
     Then status 201
+
+
+  Scenario: Create booking and validate response schema
+  Given path 'booking'
+  And request bookingPayload
+  When method post
+  Then status 200
+  And match response ==
+  """
+  {
+    bookingid: '#number',
+    booking: {
+      firstname: '#string',
+      lastname: '#string',
+      totalprice: '#number',
+      depositpaid: '#boolean',
+      bookingdates: {
+        checkin: '#string',
+        checkout: '#string'
+      },
+      additionalneeds: '#string'
+    }
+  }
+  """
+
+
+Scenario: Read non-existing booking
+  Given path 'booking', 999999999
+  When method get
+  Then status 404
+
+  

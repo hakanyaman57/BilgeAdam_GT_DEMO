@@ -6,7 +6,7 @@
   </appender>
 
   <logger name="org.thymeleaf" level="WARN"/>
-  <logger name="com.intuit.karate" level="INFO"/>
+  <logger name="com.intuit.karate" level="DEBUG"/>
 
   <root level="INFO">
     <appender-ref ref="STDOUT"/>

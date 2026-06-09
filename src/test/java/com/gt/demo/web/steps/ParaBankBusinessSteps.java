@@ -15,7 +15,7 @@ public class ParaBankBusinessSteps {
   private String generatedUsername;
   private final String generatedPassword = "Training123!";
 
-  @Given("Parabank ana sayfasini actim")
+  @Given("Parabank ana sayfasina ulastim")
   @Given("I open ParaBank home page")
   public void openParaBankHomePage() {
     homePage.open(FrameworkConfig.getRequired("web.business.baseUrl"));
@@ -34,14 +34,16 @@ public class ParaBankBusinessSteps {
         "Expected ParaBank invalid login message to contain 'could not be verified' but was: "
             + actualError);
   }
-  @Then("I should be redirected to the business homepage dashboard")
-  public void shouldBeRedirectedToBusinessHomepageDashboard() {
+  @Then("I should be see the message {string} for  user")
+  public void shouldBeRedirectedToBusinessHomepageDashboard(String message) {
     String actualTitle = homePage.dashboardTitle();
     Assert.assertEquals(
         actualTitle,
-        "ParaBank | Welcome",
+        message,
         "Expected ParaBank homepage title not found.");
   }
+
+  
 
   @Given("I open ParaBank registration page")
   public void openParaBankRegistrationPage() {
