@@ -6,7 +6,7 @@ Feature: Scenario quality comparison for trainers
     Given I do all setup quickly
     When I click many things and wait a bit and continue
     Then it should work somehow
-
+@debug @happy @smoke
   Scenario: Improved explicit scenario
     Given I am on ParaBank login page
     When I login with invalid credentials
@@ -19,7 +19,7 @@ Feature: Scenario quality comparison for trainers
     When I login with username "invalid-user-2" and password "invalid-pass-2"
     Then I should see an authentication error message
 
-  Scenario Outline: Same intent with Scenario Outline (recommended)
+  Scenario Outline: Senaryo adı degistim (recommended)
     Given I am on ParaBank login page
     When I login with username "<username>" and password "<password>"
     Then I should see an authentication error message
