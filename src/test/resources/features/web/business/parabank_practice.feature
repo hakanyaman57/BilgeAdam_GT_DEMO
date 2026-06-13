@@ -20,9 +20,9 @@ Feature: ParaBank login and registration practice
 
     Examples:
       | username | password | message |
-      |          |          | Please enter a username |
-      | user1    |          | Please enter a password |
-      |          | pass1    | Please enter a username |
+      |          |          | Please enter a username and password. |
+      | user1    |          | Please enter a username and password. |
+      |          | pass1    | Please enter a username and password. |
 
   Scenario: Duplicate username registration should be rejected
     Given I open ParaBank registration page
