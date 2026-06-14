@@ -1,3 +1,4 @@
+@training @parabank
 Feature: ParaBank API examples
   API examples mirror common ParaBank web flows for training readability.
 
@@ -14,11 +15,11 @@ Feature: ParaBank API examples
   # curl -H "Accept: application/json" \
   #   https://parabank.parasoft.com/parabank/services/bank/customers/12212
 
-@parabank
 Scenario: Login with demo customer and read customer details
     Given path "login", demoUsername, demoPassword
     When method get
     Then status 200
+    * print "Login response:", response
     And match response.id == "#number"
     And match response.firstName == "John"
     And match response.lastName == "Smith"
@@ -28,6 +29,7 @@ Scenario: Login with demo customer and read customer details
     Given path "customers", customerId
     When method get
     Then status 200
+    * print "Customer details response:", response
     And match response.id == customerId
     And match response.firstName == "John"
     And match response.lastName == "Smith"
@@ -42,11 +44,13 @@ Scenario: Login with demo customer and read customer details
     Given path "login", demoUsername, demoPassword
     When method get
     Then status 200
+    * print "Login response:", response
     * def customerId = response.id
 
     Given path "customers", customerId, "accounts"
     When method get
     Then status 200
+    * print "Customer accounts response:", response
     And match response == "#[]"
     And match each response contains { id: "#number", customerId: "#(customerId)", type: "#string", balance: "#number" }
     * def firstAccount = response[0]
@@ -54,6 +58,7 @@ Scenario: Login with demo customer and read customer details
     Given path "accounts", firstAccount.id
     When method get
     Then status 200
+    * print "First account details response:", response
     And match response.id == firstAccount.id
     And match response.customerId == customerId
     And match response.type == firstAccount.type
@@ -68,11 +73,13 @@ Scenario: Login with demo customer and read customer details
     Given path "login", demoUsername, demoPassword
     When method get
     Then status 200
+    * print "Login response:", response
     * def customerId = response.id
 
     Given path "customers", customerId, "accounts"
     When method get
     Then status 200
+    * print "Customer accounts response:", response
     * def fundingAccountId = response[0].id
 
     Given path "createAccount"
@@ -81,6 +88,7 @@ Scenario: Login with demo customer and read customer details
     And param fromAccountId = fundingAccountId
     When method post
     Then status 200
+    * print "Create savings account response:", response
     And match response.id == "#number"
     And match response.customerId == customerId
     And match response.type == "SAVINGS"
@@ -90,6 +98,7 @@ Scenario: Login with demo customer and read customer details
     Given path "accounts", newAccountId
     When method get
     Then status 200
+    * print "New account details response:", response
     And match response.id == newAccountId
     And match response.customerId == customerId
     And match response.type == "SAVINGS"
@@ -106,11 +115,13 @@ Scenario: Login with demo customer and read customer details
     Given path "login", demoUsername, demoPassword
     When method get
     Then status 200
+    * print "Login response:", response
     * def customerId = response.id
 
     Given path "customers", customerId, "accounts"
     When method get
     Then status 200
+    * print "Customer accounts response:", response
     * def fundingAccountId = response[0].id
 
     Given path "createAccount"
@@ -119,6 +130,7 @@ Scenario: Login with demo customer and read customer details
     And param fromAccountId = fundingAccountId
     When method post
     Then status 200
+    * print "Create <expectedType> account response:", response
     And match response.id == "#number"
     And match response.customerId == customerId
     And match response.type == "<expectedType>"
