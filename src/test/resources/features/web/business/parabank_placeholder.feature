@@ -10,5 +10,5 @@ Feature: ParaBank business flows
     @debug @smoke
   Scenario: Registration form fill should keep entered values
     Given I open ParaBank registration page
-    When I complete business registration with unique user
+    When I fill business registration form with unique user
     Then I should see registration form filled with my generated username

@@ -1,0 +1,11 @@
+{
+  "firstname": "Training",
+  "lastname": "User",
+  "totalprice": 150,
+  "depositpaid": true,
+  "bookingdates": {
+    "checkin": "2026-02-01",
+    "checkout": "2026-02-05"
+  },
+  "additionalneeds": "Lunch"
+}

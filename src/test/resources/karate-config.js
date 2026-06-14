@@ -9,10 +9,12 @@ function fn() {
 
   var defaultUrls = {
     local: 'https://restful-booker.herokuapp.com',
-    qa: 'https://restful-booker.herokuapp.com'
+    qa: 'https://restful-booker.herokuapp.com',
+    dev: 'https://restful-booker.herokuapp.com',
   };
 
   config.apiBaseUrl = karate.properties['api.baseUrl'] || defaultUrls[env] || defaultUrls.local;
+  config.apiBaseUrl2= karate.properties['api.baseUrl2'] || defaultUrls[env] || defaultUrls.dev;
   config.bookerUsername = karate.properties['api.username'] || 'admin';
   config.bookerPassword = karate.properties['api.password'] || 'password123';
 
