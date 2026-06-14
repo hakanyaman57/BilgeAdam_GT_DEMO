@@ -1,31 +1,16 @@
-@training
+  @training
 Feature: API training exercise
 
+  # Görev 2 - Temel response doğrulamaları ekle
+  # Response değerinin bir liste olduğunu doğrula.
+  # Listenin boş olmadığını doğrula.
+  # İlk transaction kaydını bir değişkene ata.
+  # Bu kayıttaki temel alanları kontrol et: id, accountId, type, amount.
 
-  # Task 1 - Run and inspect the existing request
-  # Use the prepared transactions endpoint.
-  # Verify status 200 and print the response so it is visible in the console and Karate report.
 
-  # Task 2 - Add basic response assertions
-  # Verify that the response is a list.
-  # Verify that the list is not empty.
-  # Store the first transaction in a variable and check its basic fields: id, accountId, type, amount.
+ 
 
-  # Task 3 - Replace fixed data with login data
-  # Call the login endpoint with demoUsername and demoPassword.
-  # Print the login response.
-  # Store response.id as customerId for the next request.
 
-  # Task 4 - Chain requests with customer accounts
-  # Use customerId to get the customer accounts list.
-  # Print the accounts response.
-  # Verify each account contains id, customerId, type, and balance with the correct data types.
-  # Store the first account id and use it to request that account transactions.
-
-  # Task 5 - Add a POST flow and improve it with Scenario Outline
-  # Create a new account using customerId, account type, and fromAccountId parameters.
-  # Verify the created account response fields.
-  # Then convert the account creation flow to Scenario Outline for CHECKING and SAVINGS.
 
 Background:
   * url "https://parabank.parasoft.com/parabank/services/bank"
@@ -33,6 +18,11 @@ Background:
   * def demoUsername = "john"
   * def demoPassword = "demo"
 
+  # Görev 1 - Mevcut isteği çalıştır ve incele
+  # Kullanılacak endpoint: GET /accounts/13344/transactions
+  # Hazır transactions endpointini kullan.
+  # Status code değerinin 200 olduğunu doğrula.
+  # Response bilgisini console ve Karate report içinde görünecek şekilde print et.
 Scenario: Transaction list for account
   Given path "accounts", 13344, "transactions"
   When method get
@@ -40,45 +30,65 @@ Scenario: Transaction list for account
   * print "Transactions response:", response
 
 
-# Example - POST with an inline JSON body
-# This uses Restful-Booker because ParaBank POST endpoints expect params, not JSON body.
-Scenario: Create booking with inline request body
-  * url apiBaseUrl
-  * configure headers = { Accept: "application/json", "Content-Type": "application/json" }
-  * def bookingPayload =
-  """
-  {
-    "firstname": "Jim",
-    "lastname": "Brown",
-    "totalprice": 111,
-    "depositpaid": true,
-    "bookingdates": {
-      "checkin": "2026-01-01",
-      "checkout": "2026-01-05"
-    },
-    "additionalneeds": "Breakfast"
-  }
-  """
-  Given path "booking"
-  And request bookingPayload
-  When method post
-  Then status 200
-  * print "Create booking response:", response
-  And match response.bookingid == "#number"
-  And match response.booking.firstname == bookingPayload.firstname
-  And match response.booking.lastname == bookingPayload.lastname
+  # Görev: Login ve customerId al
+  # Kullanılacak endpoint: GET /login/{username}/{password}
+  # Örnek path: /login/john/demo
+  # demoUsername ve demoPassword kullanarak login endpointine istek at.
+  # Login response bilgisini print et.
+  # Sonraki requestte kullanmak için response.id değerini customerId olarak kaydet.
 
-# Example - POST with a JSON body loaded from a file
-# The payload is stored under src/test/resources/testdata/api/booking_payload.json.
-Scenario: Create booking with request body from json file
-  * url apiBaseUrl
-  * configure headers = { Accept: "application/json", "Content-Type": "application/json" }
-  * def bookingPayload = read("classpath:testdata/api/booking_payload.json")
-  Given path "booking"
-  And request bookingPayload
+  # Görev 4 - Customer accounts ile requestleri birbirine bağla
+  # Kullanılacak endpoint: GET /customers/{customerId}/accounts
+  # Accounts response bilgisini print et.
+  # Sonrasında kullanılacak endpoint: GET /accounts/{accountId}/transactions
+  # customerId kullanarak müşterinin hesap listesini çek.
+  # Accounts response bilgisini print et.
+  # Her account kaydında id, customerId, type ve balance alanlarının doğru veri tipiyle geldiğini doğrula.
+  # İlk account id değerini kaydet ve bu account için transactions requesti at.
+
+    # Görev 5 - POST akışı ekle ve Scenario Outline ile iyileştir
+  # Kullanılacak endpoint: POST /createAccount
+  # Parametreler: customerId, newAccountType, fromAccountId
+  # Örnek: /createAccount?customerId=12212&newAccountType=1&fromAccountId=12345
+  # customerId, account type ve fromAccountId parametrelerini kullanarak yeni bir hesap oluştur.
+  # Oluşturulan account response alanlarını doğrula.
+  # Sonra account oluşturma akışını CHECKING ve SAVINGS için Scenario Outline haline getir.
+  @singleRun
+Scenario: Login and get customer accounts
+  Given  path "login", demoUsername, demoPassword
+  When method get
+  Then status 200
+  * print "Login response:", response
+  * def musteriNo = response.id
+  * print "Customer ID:", musteriNo
+  And match response.id == "#number"
+  And match response.firstName == "#string"
+  And match response.lastName == "Smith"
+
+  Given path "customers", musteriNo, "accounts"
+  When method get
+  Then status 200
+  * print "Customer accounts response:", response
+  And match response == "#[]"
+  * def accountId = response[0].id
+  And match response[0].type == "CHECKING"
+
+  Given path "accounts", accountId, "transactions"
+  When method get
+  Then status 200
+  * print  " Transactions response for account " + accountId + ":", response
+  And match response == "#[]"
+
+  Given path "createAccount" 
+  And param  customerId = musteriNo 
+  And param newAccountType = 1
+  And param fromAccountId = accountId
   When method post
   Then status 200
-  * print "Create booking from file response:", response
-  And match response.bookingid == "#number"
-  And match response.booking.firstname == bookingPayload.firstname
-  And match response.booking.lastname == bookingPayload.lastname
+  * print "Create account response:", response
+
+  # curl -H "Accept: application/json" \
+  #   https://parabank.parasoft.com/parabank/services/bank/login/john/demo
+
+
+
