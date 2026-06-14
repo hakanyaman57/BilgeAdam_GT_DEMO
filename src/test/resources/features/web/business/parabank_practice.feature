@@ -1,9 +1,10 @@
-@web @practice
+@web 
 Feature: ParaBank login and registration practice
   Business analysts write BDD scenarios by reusing existing framework steps where possible.
 
   Scenario: Valid username and valid password login should be successful
     Given I open ParaBank home page
+    When I login with invalid business credentials
     When I login with valid business credentials
     Then I should see the accounts overview page
     And I should see a welcome message with my username
@@ -24,6 +25,9 @@ Feature: ParaBank login and registration practice
       | user1    |          | Please enter a username and password. |
       |          | pass1    | Please enter a username and password. |
 
+
+
+@practice_web
   Scenario: Duplicate username registration should be rejected
     Given I open ParaBank registration page
     When I complete business registration with unique user

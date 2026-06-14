@@ -27,6 +27,19 @@ Mini corporate-style automation framework for a 3-day BA/TA training.
 - API only: `mvn failsafe:integration-test@api-tests failsafe:verify@api-tests`
 - Mobile profile: `mvn -Pmobile surefire:test@mobile-tests`
 
+## Report Paths
+- Web Cucumber report: `target/cucumber/web/cucumber-report.html`
+- API Karate report: `target/karate-reports/karate-summary.html`
+- TestNG default report: `target/surefire-reports/index.html`
+
+To view reports over a simple local server:
+
+```bash
+python3 -m http.server 8080 -d target
+```
+
+Then open `http://localhost:8080/karate-reports/karate-summary.html` for the latest Karate API report. If the browser still shows an older result, refresh without cache or restart the small Python server after the test run.
+
 ## Codespaces Training Environment
 - Participants should use the default headless web config in Codespaces.
 - Trainers can show a visible browser through noVNC with `scripts/start-novnc.sh`.

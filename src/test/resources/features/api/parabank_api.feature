@@ -13,7 +13,9 @@ Feature: ParaBank API examples
   #https://parabank.parasoft.com/parabank/services/bank/login/john/demo
   # curl -H "Accept: application/json" \
   #   https://parabank.parasoft.com/parabank/services/bank/customers/12212
-  Scenario: Login with demo customer and read customer details
+
+@parabank
+Scenario: Login with demo customer and read customer details
     Given path "login", demoUsername, demoPassword
     When method get
     Then status 200
