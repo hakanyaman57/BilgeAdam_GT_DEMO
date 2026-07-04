@@ -1,0 +1,6 @@
+{
+    "customerId" : "#(p_customerId)",
+    "amount": 100.00,
+    "downPayment": 10.00,
+    "fromAccountId": "#(p_fromAccountId)"
+}
