@@ -5,7 +5,7 @@
     </encoder>
   </appender>
 
-  <logger name="org.thymeleaf" level="WARN"/>
+  <logger name="org.thymeleaf" level="INFO"/>
   <logger name="com.intuit.karate" level="INFO"/>
 
   <root level="INFO">
