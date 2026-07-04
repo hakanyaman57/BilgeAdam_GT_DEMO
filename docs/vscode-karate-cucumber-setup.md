@@ -48,6 +48,28 @@ Only workspace-level mapping should remain active.
 
 `Problems` warnings tagged as `cucumber.undefined-step` in API feature files are lint diagnostics. They are not proof that API tests were executed by Cucumber.
 
+## Karate Reports
+
+Karate writes the API report to:
+
+```text
+target/karate-reports/karate-summary.html
+```
+
+If reports are served with:
+
+```bash
+python3 -m http.server 8080 -d target
+```
+
+open:
+
+```text
+http://localhost:8080/karate-reports/karate-summary.html
+```
+
+Do not use `target/surefire-reports/index.html` for Karate result checks; that page is the TestNG/Surefire report used mainly by the web module. If the Karate page looks stale, refresh the browser without cache or restart the Python server after rerunning `ApiKarateTest.java`.
+
 ## Visible Browser Demo
 
 Codespaces uses the default `web-headless` config for participant stability.

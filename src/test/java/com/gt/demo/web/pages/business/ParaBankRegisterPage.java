@@ -17,6 +17,8 @@ public class ParaBankRegisterPage extends BaseWebPage {
   private static final By PASSWORD = By.id("customer.password");
   private static final By REPEATED_PASSWORD = By.id("repeatedPassword");
   private static final By REGISTER_BUTTON = By.cssSelector("input.button[value='Register']");
+  private static final By REGISTRATION_TITLE = By.cssSelector("#rightPanel h1.title");
+  private static final By USERNAME_ERROR = By.id("customer.username.errors");
 
   public ParaBankRegisterPage(WebDriver driver) {
     super(driver);
@@ -42,6 +44,14 @@ public class ParaBankRegisterPage extends BaseWebPage {
 
   public void submitRegistration() {
     click(REGISTER_BUTTON);
+  }
+
+  public boolean isRegistrationSuccessfulFor(String username) {
+    return text(REGISTRATION_TITLE).contains(username);
+  }
+
+  public String usernameErrorMessage() {
+    return text(USERNAME_ERROR);
   }
 
   public String enteredUsername() {

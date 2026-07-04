@@ -11,6 +11,8 @@ public class ParaBankHomePage extends BaseWebPage {
   private static final By REGISTER_LINK = By.linkText("Register");
   private static final By LOGIN_ERROR = By.cssSelector("#rightPanel p.error");
   private static final By LOGOUT_LINK = By.linkText("Log Out");
+  private static final By ACCOUNTS_OVERVIEW_LINK = By.cssSelector("div#showOverview h1.title");
+  private static final By WELCOME_MESSAGE = By.cssSelector("#leftPanel p.smallText");
 
   public ParaBankHomePage(WebDriver driver) {
     super(driver);
@@ -34,7 +36,19 @@ public class ParaBankHomePage extends BaseWebPage {
     return text(LOGIN_ERROR);
   }
 
+  public boolean isAccountsOverviewVisible() {
+    return visible(ACCOUNTS_OVERVIEW_LINK).isDisplayed();
+  }
+
+  public String welcomeMessage() {
+    return text(WELCOME_MESSAGE);
+  }
+
   public boolean isLoggedIn() {
     return !driver.findElements(LOGOUT_LINK).isEmpty();
+  }
+
+  public void logout() {
+    click(LOGOUT_LINK);
   }
 }

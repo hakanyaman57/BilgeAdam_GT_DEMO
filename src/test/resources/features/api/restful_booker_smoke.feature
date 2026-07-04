@@ -1,3 +1,4 @@
+@restfulBookerRun
 Feature: Restful-Booker API smoke
   API examples are intentionally compact for training readability.
 
@@ -29,6 +30,7 @@ Feature: Restful-Booker API smoke
     And request bookingPayload
     When method post
     Then status 200
+    And print response
     And match response.bookingid == '#number'
     And match response.booking.firstname == bookingPayload.firstname
     And match response.booking.lastname == bookingPayload.lastname
@@ -38,8 +40,9 @@ Feature: Restful-Booker API smoke
     And request bookingPayload
     When method post
     Then status 200
+    And print response
     * def createdBookingId = response.bookingid
-    Given path 'booking', createdBookingId
+    Given path 'booking', createdBookingId 
     When method get
     Then status 200
     And match response.firstname == bookingPayload.firstname

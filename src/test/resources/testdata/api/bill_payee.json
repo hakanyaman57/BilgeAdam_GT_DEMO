@@ -1,0 +1,11 @@
+{
+  "name": "Electric Company",
+  "address": {
+    "street": "100 Main Street",
+    "city": "New York",
+    "state": "NY",
+    "zipCode": "10001"
+  },
+  "phoneNumber": "555-123-4567",
+  "accountNumber": 12345
+}
