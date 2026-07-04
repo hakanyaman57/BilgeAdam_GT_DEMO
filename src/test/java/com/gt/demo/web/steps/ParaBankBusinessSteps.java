@@ -3,6 +3,7 @@ package com.gt.demo.web.steps;
 import com.gt.demo.common.config.FrameworkConfig;
 import com.gt.demo.web.base.WebDriverContext;
 import com.gt.demo.web.pages.business.ParaBankHomePage;
+import com.gt.demo.web.pages.business.ParaBankOpenAccountPage;
 import com.gt.demo.web.pages.business.ParaBankRegisterPage;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -14,9 +15,13 @@ import org.testng.Assert;
 public class ParaBankBusinessSteps {
   private static final Logger LOG = LoggerFactory.getLogger(ParaBankBusinessSteps.class);
   private final ParaBankHomePage homePage = new ParaBankHomePage(WebDriverContext.get());
+  private final ParaBankOpenAccountPage openAccountPage =
+      new ParaBankOpenAccountPage(WebDriverContext.get());
   private final ParaBankRegisterPage registerPage = new ParaBankRegisterPage(WebDriverContext.get());
   private String generatedUsername;
   private final String generatedPassword = "Training123!";
+  private String selectedFundingAccountId;
+  private String newAccountId;
 
   @Given("Parabank ana sayfasini actim")
   @Given("I open ParaBank home page")
@@ -108,4 +113,78 @@ public class ParaBankBusinessSteps {
         "Expected welcome message to contain Welcome but was: " + actualWelcomeMessage);
   }
 
+
+  @Given("I go to the Open New Account page")
+  public void goToTheOpenNewAccountPage() {
+    openAccountPage.goToOpenNewAccount();
+  }
+
+  @Given("I have opened a new account successfully")
+  public void openANewAccountSuccessfully() {
+    openAccountPage.goToOpenNewAccount();
+    openAccountPage.selectAccountType("CHECKING");
+    selectedFundingAccountId = openAccountPage.selectFirstFundingAccount();
+    LOG.info("Selected ParaBank funding account: {}", selectedFundingAccountId);
+    openAccountPage.submitOpenAccountForm();
+    newAccountId = openAccountPage.newAccountNumber();
+    LOG.info("Opened ParaBank account: {}", newAccountId);
+  }
+
+  @When("I select {string} as the new account type")
+  public void selectNewAccountType(String accountType) {
+    openAccountPage.selectAccountType(accountType);
+  }
+
+  @When("I select an existing account as the funding account")
+  public void selectExistingFundingAccount() {
+    selectedFundingAccountId = openAccountPage.selectFirstFundingAccount();
+    LOG.info("Selected ParaBank funding account: {}", selectedFundingAccountId);
+  }
+
+  @When("I select account id {string} as the funding account")
+  public void selectFundingAccountById(String accountId) {
+    selectedFundingAccountId = accountId;
+    openAccountPage.selectFundingAccount(accountId);
+  }
+
+  @When("I submit the open new account form")
+  public void submitOpenNewAccountForm() {
+    openAccountPage.submitOpenAccountForm();
+    newAccountId = openAccountPage.newAccountNumber();
+    LOG.info("Opened ParaBank account: {}", newAccountId);
+  }
+
+  @When("I click the new account number link")
+  public void clickTheNewAccountNumberLink() {
+    Assert.assertNotNull(newAccountId, "Expected a new account number before clicking its link.");
+    openAccountPage.clickNewAccountNumber();
+  }
+
+  @Then("I should see the account opened confirmation message")
+  public void shouldSeeAccountOpenedConfirmationMessage() {
+    Assert.assertTrue(
+        openAccountPage.isAccountOpened(),
+        "Expected the account opened confirmation message to be visible.");
+  }
+
+  @Then("I should see {string}")
+  public void shouldSeeTextOnOpenAccountPage(String expectedText) {
+    Assert.assertTrue(
+        openAccountPage.containsText(expectedText),
+        "Expected open account page to contain text: " + expectedText);
+  }
+
+  @Then("I should see the new account number")
+  public void shouldSeeTheNewAccountNumber() {
+    newAccountId = openAccountPage.newAccountNumber();
+    Assert.assertFalse(newAccountId.isBlank(), "Expected a new account number to be shown.");
+  }
+
+  @Then("I should see the account activity page for the new account")
+  public void shouldSeeAccountActivityForTheNewAccount() {
+    Assert.assertNotNull(newAccountId, "Expected a new account number before checking activity.");
+    Assert.assertTrue(
+        openAccountPage.isAccountActivityVisibleFor(newAccountId),
+        "Expected account activity page for new account id: " + newAccountId);
+  }
 }

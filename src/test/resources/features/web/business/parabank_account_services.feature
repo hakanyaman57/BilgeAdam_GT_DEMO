@@ -7,6 +7,7 @@ Feature: ParaBank account services practice
     And I login with valid business credentials
     And I should see the accounts overview page
 
+  @smoke @happy
   Scenario: Customer should open a new checking account
     Given I go to the Open New Account page
     When I select "CHECKING" as the new account type
@@ -26,7 +27,7 @@ Feature: ParaBank account services practice
 
   Scenario: Open new account page should explain the minimum opening deposit
     Given I go to the Open New Account page
-    Then I should see "A minimum of $90.00 must be deposited into this account at time of opening."
+    Then I should see "A minimum of $100.00 must be deposited into this account at time of opening."
 
   Scenario Outline: Customer should choose account type before opening a new account
     Given I go to the Open New Account page

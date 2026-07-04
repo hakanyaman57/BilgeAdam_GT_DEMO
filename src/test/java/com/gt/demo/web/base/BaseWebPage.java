@@ -65,8 +65,12 @@ public abstract class BaseWebPage {
   }
 
   protected boolean waitUntilJsCondition(String script) {
+    return waitUntilJsCondition(script, new Object[0]);
+  }
+
+  protected boolean waitUntilJsCondition(String script, Object... args) {
     try {
-      return wait.until(d -> Boolean.TRUE.equals(js(script)));
+      return wait.until(d -> Boolean.TRUE.equals(js(script, args)));
     } catch (TimeoutException timeoutException) {
       return false;
     }

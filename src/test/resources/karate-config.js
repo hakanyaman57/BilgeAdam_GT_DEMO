@@ -13,6 +13,7 @@ function fn() {
     dev: 'https://restful-booker.herokuapp.com',
   };
 
+  config.parabankBaseUrl= "https://parabank.parasoft.com/parabank/services/bank"
   config.apiBaseUrl = karate.properties['api.baseUrl'] || defaultUrls[env] || defaultUrls.local;
   config.apiBaseUrl2= karate.properties['api.baseUrl2'] || defaultUrls[env] || defaultUrls.dev;
   config.bookerUsername = karate.properties['api.username'] || 'admin';
