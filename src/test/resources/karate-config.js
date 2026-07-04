@@ -12,6 +12,7 @@ function fn() {
     qa: 'https://restful-booker.herokuapp.com'
   };
 
+  config.parabankUrl = karate.properties['parabank.baseUrl'] || 'https://parabank.parasoft.com/parabank';
   config.apiBaseUrl = karate.properties['api.baseUrl'] || defaultUrls[env] || defaultUrls.local;
   config.bookerUsername = karate.properties['api.username'] || 'admin';
   config.bookerPassword = karate.properties['api.password'] || 'password123';
